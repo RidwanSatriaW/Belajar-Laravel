@@ -1,10 +1,11 @@
 <?php
 
-use App\Models\User;
-use App\Models\Post;
+
 use \App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 
 
 
@@ -18,6 +19,7 @@ use App\Http\Controllers\PostController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 Route::get('/', function () {
     return view('home',[
@@ -37,7 +39,7 @@ Route::get('/about', function () {
 });
 
 
-Route::get('/blog', [PostController::class, 'index']);
+Route::get('/posts', [PostController::class, 'index']);
 
 //halaman single routes
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
@@ -51,21 +53,24 @@ Route::get('categories', function(){
     ]);
 });
 
-Route::get('categories/{category:slug}', function(Category $category){
-    return view('posts',[
-        'tittle'=>"Post by Category : $category->name",
-        "active" => "categories",
-        'posts'=>$category->posts->load('category','author'),
+// Route::get('categories/{category:slug}', function(Category $category){
+//     return view('posts',[
+//         'tittle'=>"Post by Category : $category->name",
+//         "active" => "categories",
+//         'posts'=>$category->posts->load('category','author'),
 
-    ]);
-});
+//     ]);
+// });
 
-Route::get('/authors/{author:username}', function(User $author){
-    return view('posts',[
-        'tittle'=>"Post by Author : $author->name",
-        "active" => "posts",
-        'posts'=>$author->posts->load('category','author'),
-    ]);
-});
+// Route::get('/authors/{author:username}', function(User $author){
+//     return view('posts',[
+//         'tittle'=>"Post by Author : $author->name",
+//         "active" => "posts",
+//         'posts'=>$author->posts->load('category','author'),
+//     ]);
+// });
 
+Route::get('/login', [LoginController::class, 'index']);
+
+Route::get('/register', [RegisterController::class, 'index']);
 
